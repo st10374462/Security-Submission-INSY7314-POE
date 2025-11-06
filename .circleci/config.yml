@@ -1,4 +1,5 @@
 version: 2.1
+
 orbs:
   sonarcloud: sonarsource/sonarcloud@2.0.0
 
@@ -22,14 +23,11 @@ jobs:
           command: |
             npm install
             npm run build
-            - sonarcloud/scan
+      - sonarcloud/scan   # FIXED: now correctly placed as its own step
 
 workflows:
   main:
     jobs:
       - build:
           context: SonarCloud
-
-  say-hello-workflow:
-    jobs:
-      - say-hello
+      - say-hello  # Optional, remove if you don’t need it
