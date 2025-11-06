@@ -18,16 +18,25 @@ jobs:
       - image: cimg/node:lts
     steps:
       - checkout
+
       - run:
-          name: Install dependencies and build project
+          name: Install & Build Frontend
           command: |
+            cd frontend
             npm install
             npm run build
-      - sonarcloud/scan   # FIXED: now correctly placed as its own step
+
+      - run:
+          name: Install Backend
+          command: |
+            cd backend
+            npm install
+
+      - sonarcloud/scan
 
 workflows:
   main:
     jobs:
       - build:
           context: SonarCloud
-      - say-hello  # Optional, remove if you don’t need it
+      - say-hello
